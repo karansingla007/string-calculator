@@ -21,3 +21,6 @@ You can build and run the project using Docker:
 ```bash
 docker build -t string-calculator .
 docker run --rm string-calculator
+```
+
+![App Screenshot](test_screenshot.png)
