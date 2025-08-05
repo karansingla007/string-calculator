@@ -1,35 +1,38 @@
-# string_calculator.py
 import re
-
+import pytest
 
 def add(numbers: str) -> int:
     if not numbers:
         return 0
 
-    delimiter = ","
-    custom_delimiter_pattern = r"^//(.+)\n(.*)"
+    delimiters = [',', '\n']
 
-    if numbers.startswith("//"):
-        match = re.match(custom_delimiter_pattern, numbers, re.DOTALL)
-        if match:
-            delimiter, numbers = match.groups()
+    # Check for custom delimiter(s)
+    if numbers.startswith('//'):
+        header, numbers = numbers.split('\n', 1)
+        custom_delimiters = re.findall(r'\[(.*?)\]', header)
+        if custom_delimiters:
+            delimiters.extend(custom_delimiters)
+        else:
+            delimiters.append(header[2:])
 
-    # support newlines as delimiter
-    numbers = numbers.replace("\n", delimiter)
+    # Create a regex pattern for all delimiters
+    delimiter_pattern = '|'.join(map(re.escape, delimiters))
+    tokens = re.split(delimiter_pattern, numbers)
 
-    split_numbers = numbers.split(delimiter)
+    negatives = []
+    total = 0
 
-    parsed_numbers = []
-    negative_numbers = []
+    for token in tokens:
+        if not token:
+            continue
+        num = int(token)
+        if num < 0:
+            negatives.append(num)
+        elif num <= 1000:
+            total += num
 
-    for num in split_numbers:
-        if num.strip():
-            n = int(num)
-            if n < 0:
-                negative_numbers.append(n)
-            parsed_numbers.append(n)
+    if negatives:
+        raise ValueError(f"negative numbers are not allowed: {', '.join(map(str, negatives))}")
 
-    if negative_numbers:
-        raise ValueError(f"negative numbers are not allowed: {', '.join(map(str, negative_numbers))}")
-
-    return sum(parsed_numbers)
+    return total

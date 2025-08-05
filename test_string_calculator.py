@@ -31,3 +31,16 @@ def test_multiple_negative_numbers():
     with pytest.raises(ValueError) as excinfo:
         add("1,-2,3,-4")
     assert str(excinfo.value) == "negative numbers are not allowed: -2, -4"
+
+def test_ignore_large_numbers():
+    assert add("2,1001") == 2
+    assert add("1000,1") == 1001
+
+def test_custom_multi_char_delimiter():
+    assert add("//[***]\n1***2***3") == 6
+
+def test_multiple_custom_delimiters():
+    assert add("//[*][%]\n1*2%3") == 6
+
+def test_multiple_long_custom_delimiters():
+    assert add("//[***][%%]\n1***2%%3") == 6
