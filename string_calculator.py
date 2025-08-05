@@ -33,3 +33,11 @@ def add(numbers: str) -> int:
         raise ValueError(f"negative numbers are not allowed: {', '.join(map(str, negative_numbers))}")
 
     return sum(parsed_numbers)
+
+print(add("1"))
+print(add("1,2"))
+print(add("1,2,3,4,5"))
+print(add("1\n2,3"))
+print(add("//;\n1;2"))
+print(add("//|\n1|2|3"))
+print(add("1,-2"))
