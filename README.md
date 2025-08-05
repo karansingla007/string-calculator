@@ -12,3 +12,12 @@ A simple string calculator that follows TDD methodology using Python.
 ```bash
 pip install pytest
 pytest test_string_calculator.py
+```
+
+## 🐳 Run in Docker
+
+You can build and run the project using Docker:
+
+```bash
+docker build -t string-calculator .
+docker run --rm string-calculator
