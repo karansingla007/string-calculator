@@ -21,3 +21,13 @@ def test_custom_delimiter_semicolon():
 
 def test_custom_delimiter_pipe():
     assert add("//|\n1|2|3") == 6
+
+def test_negative_number_throws_exception():
+    with pytest.raises(ValueError) as excinfo:
+        add("1,-2")
+    assert str(excinfo.value) == "negative numbers are not allowed: -2"
+
+def test_multiple_negative_numbers():
+    with pytest.raises(ValueError) as excinfo:
+        add("1,-2,3,-4")
+    assert str(excinfo.value) == "negative numbers are not allowed: -2, -4"
