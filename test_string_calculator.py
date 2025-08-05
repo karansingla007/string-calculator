@@ -15,3 +15,9 @@ def test_multiple_numbers():
 
 def test_newlines_between_numbers():
     assert add("1\n2,3") == 6
+
+def test_custom_delimiter_semicolon():
+    assert add("//;\n1;2;3") == 6
+
+def test_custom_delimiter_pipe():
+    assert add("//|\n1|2|3") == 6
